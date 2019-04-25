@@ -1,8 +1,8 @@
-from distutils.core import setup
+from setuptools import setup, find_packages
 
 setup(
     name='Api-League-of-Legends',
-    packages=['src'],
+    packages=find_packages('src'),
     version='0.02',
     license='MIT',
     description='Wrapper for the League of Legends Api',
