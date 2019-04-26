@@ -3,7 +3,8 @@ from setuptools import setup, find_packages
 setup(
     name='ApiLeagueOfLegends',
     packages=find_packages('src'),
-    version='0.03',
+    package_dir={'': 'src'},
+    version='0.01',
     license='MIT',
     description='Wrapper for the League of Legends Api',
     author='Lukas Mahr',
@@ -25,5 +26,4 @@ setup(
         'Programming Language :: Python :: 3.7',
     ],
     zip_safe=False,
-    package_dir={'': 'src'}
 )
