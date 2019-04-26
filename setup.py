@@ -2,9 +2,10 @@ from setuptools import setup, find_packages
 
 setup(
     name='ApiLeagueOfLegends',
-    packages=['', 'league_of_legends_api'], #packages=['', 'Api'],
+    packages=['', 'league_of_legends_api', 'league_of_legends_api/Api', 'league_of_legends_api/Database',
+              'league_of_legends_api/Tools'], #packages=['', 'Api'],
     package_dir={'': 'src'},
-    version='0.01',
+    version='0.02',
     license='MIT',
     description='Wrapper for the League of Legends Api',
     author='Lukas Mahr',
