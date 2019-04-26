@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name='ApiLeagueOfLegends',
     packages=['', 'league_of_legends_api'],
-    package_dir={'': 'src'},
+    #package_dir={'': 'src'},
     version='0.01',
     license='MIT',
     description='Wrapper for the League of Legends Api',
