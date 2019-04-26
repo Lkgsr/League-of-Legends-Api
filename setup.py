@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='ApiLeagueOfLegends',
-    packages=find_packages('src'),
+    packages=['', 'league_of_legends_api'],
     package_dir={'': 'src'},
     version='0.01',
     license='MIT',
