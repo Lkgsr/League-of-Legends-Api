@@ -2,6 +2,7 @@ import time
 import requests
 import json
 
+
 class LeagueRequest:
 
     def __init__(self, region):
@@ -48,6 +49,36 @@ class LeagueRequest:
                 if response.status_code == 200:
                     response = response.json()
                     response['api_key_id'] = key.id
+                    return response
+        return None
+
+    @classmethod
+    def _json_request_handling(cls, url):
+        """Just the request"""
+        try:
+            response = requests.get(url)
+        except Exception as e:
+            print("request exception: " + str(e))
+            return None
+        return response
+
+    @classmethod
+    def send_json_request(cls, url):
+        """sends the request to DataDragon"""
+        response = cls._json_request_handling(url)
+        if response is not None:  # with only response: it didnt work by response code like 404 or 403 or 429
+            if response.status_code == 403:
+                print('Update you API-Key !, message: ' + str(response.json()))
+                exit()
+                return None
+            while response.status_code == 429:
+                response = cls._json_request_handling(url)
+            if response.status_code == 404:
+                print(f'Status Code 404: {response.json()}')
+                return None
+            elif response:
+                if response.status_code == 200:
+                    response = response.json()
                     return response
         return None
 

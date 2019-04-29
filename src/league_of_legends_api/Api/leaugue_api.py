@@ -169,11 +169,12 @@ class MatchV4(Base):
         :param kwargs: champion, queue, season, endTime, beginTime, endIndex, beginIndex
         :return: MatchlistDto
         """
-        if "champion" in kwargs.keys():
-            #?champion=1&season=11
-            pass
+        optional = ''
+        if kwargs:
+            optional = '?' + '&'.join(['%s=%s' % (key, value) for (key, value) in kwargs.items()])
+            print(optional)
         key = self._get_key_by_id(api_key_id)
-        return self.request.send_request(f'/lol/match/v4/matchlists/by-account/{account_id}', key), key
+        return self.request.send_request(f'/lol/match/v4/matchlists/by-account/{account_id}{optional}', key), key
 
     def get_matches_by_tournament_code(self, tournament_code):
         """"""
@@ -212,3 +213,22 @@ class ThirdPartyCodeV4(Base):
         """"""
         key = self._get_key_by_id(api_key_id)
         return self.request.send_request(f' /lol/platform/v4/third-party-code/by-summoner/{summoner_id}', key), key
+
+
+class LeagueStaticDataDragon:
+
+    @staticmethod
+    def get_all_champions_static(language='de_DE', version=None):
+        """All Champions if version is None it takes the newest one"""
+        if version is None:
+            response = LeagueRequest.send_json_request('https://ddragon.leagueoflegends.com/realms/na.json')
+            version = response['n']['champion']
+        return LeagueRequest.send_json_request(f'http://ddragon.leagueoflegends.com/cdn/{version}/data/{language}/champion.json')
+
+    @staticmethod
+    def get_all_items_static(language='de_DE', version=None):
+        """All Items if version is None it takes the newest one"""
+        if version is None:
+            response = LeagueRequest.send_json_request('https://ddragon.leagueoflegends.com/realms/na.json').json()
+            version = response['n']['item']
+        return LeagueRequest.send_json_request(f'http://ddragon.leagueoflegends.com/cdn/{version}/data/{language}/item.json')

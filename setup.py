@@ -1,9 +1,9 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 
 setup(
     name='ApiLeagueOfLegends',
     packages=['', 'league_of_legends_api', 'league_of_legends_api/Api', 'league_of_legends_api/Database',
-              'league_of_legends_api/Tools'], #packages=['', 'Api'],
+              'league_of_legends_api/Tools'],
     package_dir={'': 'src'},
     version='0.02',
     license='MIT',
