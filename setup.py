@@ -5,7 +5,7 @@ setup(
     packages=['', 'league_of_legends_api', 'league_of_legends_api/Api', 'league_of_legends_api/Database',
               'league_of_legends_api/Tools'],
     package_dir={'': 'src'},
-    version='0.04',
+    version='0.05',
     license='MIT',
     description='Wrapper for the League of Legends Api',
     author='Lukas Mahr',

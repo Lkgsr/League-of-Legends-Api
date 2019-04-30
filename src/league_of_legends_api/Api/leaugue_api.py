@@ -1,4 +1,5 @@
 from league_of_legends_api.Tools.leaugue_request import LeagueRequest
+from multiprocessing.dummy import Pool
 import random
 
 
@@ -151,6 +152,11 @@ class MatchV4(Base):
 
     def __init__(self, api_keys, **kwargs):
         Base.__init__(self, api_keys, **kwargs)
+
+    def run_pool_request(self, list_of_match_ids):
+        with Pool(100) as p:
+            pm = p.imap_unordered(self.get_matches_by_match_id, list_of_match_ids)
+            return [i for i in pm if i]
 
     def get_matches_by_match_id(self, match_id):
         """"""
