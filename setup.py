@@ -1,4 +1,6 @@
 from setuptools import setup
+with open('README.md', 'r') as file:
+    long_description = file.read()
 
 setup(
     name='ApiLeagueOfLegends',
@@ -8,6 +10,7 @@ setup(
     version='0.05',
     license='MIT',
     description='Wrapper for the League of Legends Api',
+    long_description=long_description,
     author='Lukas Mahr',
     author_email='LukasMahr@gmx.de',
     url='https://github.com/Lkgsr/League-of-Legends-Api',
