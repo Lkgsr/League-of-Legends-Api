@@ -153,9 +153,16 @@ class MatchV4(Base):
     def __init__(self, api_keys, **kwargs):
         Base.__init__(self, api_keys, **kwargs)
 
-    def run_pool_request(self, list_of_match_ids):
+    def run_pool_request_match(self, list_of_match_ids):
+        """Run Max 100 ids at the same time"""
         with Pool(100) as p:
             pm = p.imap_unordered(self.get_matches_by_match_id, list_of_match_ids)
+            return [i for i in pm if i]
+
+    def run_pool_request_timeline(self, list_of_match_ids):
+        """Run Max 100 ids at the same time"""
+        with Pool(100) as p:
+            pm = p.imap_unordered(self.get_match_timeline_by_match_id, list_of_match_ids)
             return [i for i in pm if i]
 
     def get_matches_by_match_id(self, match_id):
