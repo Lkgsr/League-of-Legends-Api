@@ -103,21 +103,21 @@ class LeagueV4(Base):
 
     def get_grandmaster_leagues_by_queue_id(self, queue):
         """Returns List of Grandmaster Players by queue.
-        :param queue: 'RANKED_SOLO_5x5', 'RANKED_FLEX_SR', 'RANKED_FLEX_TT'
+        :param queue: 'RANKED_SOLO_5x5', 'RANKED_FLEX_SR', 'RANKED_FLEX_TT', 'RANKED_TFT'
         :return: LeagueListDTO """
         key = self._get_random_key()
         return self.request.send_request(f'/lol/league/v4/grandmasterleagues/by-queue/{queue}', key), key
 
     def get_master_leagues_by_queue_id(self, queue):
         """Returns List of Master Players by queue.
-        :param queue: 'RANKED_SOLO_5x5', 'RANKED_FLEX_SR', 'RANKED_FLEX_TT'
+        :param queue: 'RANKED_SOLO_5x5', 'RANKED_FLEX_SR', 'RANKED_FLEX_TT', 'RANKED_TFT'
         :return: LeagueListDTO """
         key = self._get_random_key()
         return self.request.send_request(f'/lol/league/v4/masterleagues/by-queue/{queue}', key), key
 
     def get_challenger_leagues_by_queue_id(self, queue):
         """Returns List of Challenger Players by queue.
-        :param queue: 'RANKED_SOLO_5x5', 'RANKED_FLEX_SR', 'RANKED_FLEX_TT'
+        :param queue: 'RANKED_SOLO_5x5', 'RANKED_FLEX_SR', 'RANKED_FLEX_TT', 'RANKED_TFT'
         :return: LeagueListDTO """
         key = self._get_random_key()
         return self.request.send_request(f'/lol/league/v4/challengerleagues/by-queue/{queue}', key), key
@@ -130,7 +130,7 @@ class LeagueV4(Base):
 
     def get_league_entries_by_queue_tier_division(self, queue, tier, division, page=1):
         """Returns a list of all Summoners in the given league
-        :param queue: 'RANKED_SOLO_5x5', 'RANKED_FLEX_SR', 'RANKED_FLEX_TT'
+        :param queue: 'RANKED_SOLO_5x5', 'RANKED_FLEX_SR', 'RANKED_FLEX_TT', 'RANKED_TFT'
         :param tier: 'IRON', 'BRONZE', 'SILVER', 'GOLD', 'PLATINUM', 'DIAMOND'
         :param division: 'IV', 'III', 'II', 'I'
         :param page: 1 or higher, Starts with given page
@@ -146,6 +146,22 @@ class LeagueV4(Base):
         """
         key = self._get_random_key()
         return self.request.send_request(f'/lol/league/v4/leagues/{league_id}', key), key
+
+
+class LeagueExpV4(Base):
+
+    def __init__(self, api_keys, **kwargs):
+        Base.__init__(self, api_keys, **kwargs)
+
+    def get_league_entries_by_queue_tier_division(self, queue, tier, division, page=1):
+        """Returns a list of all Summoners in the given league
+        :param queue: 'RANKED_SOLO_5x5', 'RANKED_FLEX_SR', 'RANKED_FLEX_TT', 'RANKED_TFT'
+        :param tier: 'IRON', 'BRONZE', 'SILVER', 'GOLD', 'PLATINUM', 'DIAMOND', 'MASTER', 'GRANDMASTER', 'CHALLENGER'
+        :param division: 'IV', 'III', 'II', 'I'
+        :param page: 1 or higher, Starts with given page
+        :return: Set[LeagueEntryDTO] """
+        key = self._get_random_key()
+        return self.request.send_request(f'/lol/league-exp/v4/entries/{queue}/{tier}/{division}?page={page}', key), key
 
 
 class MatchV4(Base):
@@ -236,7 +252,7 @@ class LeagueStaticDataDragon:
         if version is None:
             response = LeagueRequest.send_json_request('https://ddragon.leagueoflegends.com/realms/na.json')
             version = response['n']['champion']
-        return LeagueRequest.send_json_request(f'http://ddragon.leagueoflegends.com/cdn/{version}/data/{language}/champion.json')
+        return LeagueRequest.send_json_request(f'http://ddragon.leagueoflegends.com/cdn/{version}/data/{language}/champion.json'), version
 
     @staticmethod
     def get_all_items_static(language='de_DE', version=None):
@@ -244,4 +260,4 @@ class LeagueStaticDataDragon:
         if version is None:
             response = LeagueRequest.send_json_request('https://ddragon.leagueoflegends.com/realms/na.json').json()
             version = response['n']['item']
-        return LeagueRequest.send_json_request(f'http://ddragon.leagueoflegends.com/cdn/{version}/data/{language}/item.json')
+        return LeagueRequest.send_json_request(f'http://ddragon.leagueoflegends.com/cdn/{version}/data/{language}/item.json'), version
